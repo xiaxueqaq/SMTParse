@@ -3,6 +3,7 @@
 ## 安装
 
 ### 安装 clpoly
+----------------
 
 #### 克隆 clpoly 子模块
 
@@ -25,6 +26,7 @@ git submodule update --init --recursive
     ```
 
 ### 安装 smt2_to_maple
+-----------------------
 执行
 ```
 make smt2_to_maple 
