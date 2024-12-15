@@ -1,0 +1,3 @@
+[submodule "CLPoly"]
+	path = CLPoly
+	url = https://github.com/lihaokun/CLPoly.git
