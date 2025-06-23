@@ -1,5 +1,5 @@
 .PHONY: clean
-all:make_python_lib smt2_to_maple random_NRA
+all:make_python_lib smt2_to_mma random_NRA
 ## Load Previous Configuration ####################################################################
 
 -include config.mk
@@ -41,7 +41,7 @@ clpolylib= -LCLPoly/lib/clpoly  -lclpoly -lgmpxx -lgmp
 pythonlib=-lboost_python3  
 smtlib_parse_hh=$(wildcard src/*.hh)
 smtlib_parse_cc_=$(wildcard src/*.cc)
-main_cc=src/smt2_to_maple.cc src/random_NRA.cc src/chordofsmt.cc
+main_cc=src/smt2_to_mma.cc src/random_NRA.cc src/chordofsmt.cc
 smtlib_parse_cc=$(filter-out $(main_cc),$(smtlib_parse_cc_))
 smtlib_parse_d_o=$(smtlib_parse_cc:src/%.cc=$(smtlib_parse_BUILD_DIR)/debug/smtlib_parse/%.o)
 smtlib_parse_r_o=$(smtlib_parse_cc:src/%.cc=$(smtlib_parse_BUILD_DIR)/release/smtlib_parse/%.o)
@@ -56,7 +56,7 @@ $(smtlib_parse_LIB_DIR)/smtlib_parse/NRA_op.so:$(smtlib_parse_r_o) python/NRA_op
 	mkdir -p $(dir $@)
 	$(CXX) $(smtlib_parse_REL) $(smtlib_parse_FPIC) $(IPATHS) $(Ipython) $(smtlib_parse_r_o) python/NRA_op.cc -shared -o  $@ $(clpolylib) $(pythonlib)
 make_python_lib:$(smtlib_parse_LIB_DIR)/smtlib_parse/NRA_op.so
-smt2_to_maple:$(smtlib_parse_r_o)  src/smt2_to_maple.cc
+smt2_to_mma:$(smtlib_parse_r_o)  src/smt2_to_mma.cc
 	$(CXX) $(smtlib_parse_REL) $(smtlib_parse_FPIC) $(IPATHS) $(smtlib_parse_r_o) src/$@.cc -o  $@  $(clpolylib)
 chordofsmt:$(smtlib_parse_r_o)  src/chordofsmt.cc
 	$(CXX) $(smtlib_parse_REL) $(smtlib_parse_FPIC) $(IPATHS) $(smtlib_parse_r_o) src/$@.cc -o  $@  $(clpolylib)
@@ -65,4 +65,4 @@ random_NRA:$(smtlib_parse_r_o)  src/random_NRA.cc
 	$(CXX) $(smtlib_parse_REL) $(smtlib_parse_FPIC) $(IPATHS) $(smtlib_parse_r_o) src/$@.cc -o  $@  $(clpolylib) 
 
 clean:
-	rm -r $(smtlib_parse_d_o) $(smtlib_parse_r_o) $(smtlib_parse_LIB_DIR)/smtlib_parse/NRA_op.so random_NRA smt2_to_maple
+	rm -r $(smtlib_parse_d_o) $(smtlib_parse_r_o) $(smtlib_parse_LIB_DIR)/smtlib_parse/NRA_op.so random_NRA smt2_to_mma
