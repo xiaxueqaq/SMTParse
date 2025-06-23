@@ -309,6 +309,66 @@ namespace smt{
             
             return stream;
         }
+      std::ostream& NRA_CNF::to_mathematica(std::ostream& stream,const std::string& s) const
+        {
+	  //stream<<"[\n";
+	  //stream<<"  [\""<<s<<"\"],\n";
+            static const std::map<char,int> opm={
+                {'<',-1},
+                {'=',0},
+                {'>',1}
+            };
+            //stream<<"  [";
+            //for (auto p=this->__polys.begin();p!=this->__polys.end();++p)
+            //{
+            //    if (p!=this->__polys.begin())
+            //    {
+            //        stream<<",";
+            //    }
+            //    stream<<*p;
+            //}
+            //stream<<"],\n";
+            //stream<<"  [\n";
+            for (auto p=this->__cnf.begin();p!=this->__cnf.end();++p)
+            {
+                if (p!=this->__cnf.begin())
+                {
+                    stream<<"&&";
+                }
+                stream<<"(";
+                for (auto p1=p->begin();p1!=p->end();++p1)
+                {
+                    if (p1!=p->begin())
+                    {
+                        stream<<"||";
+                    }
+		    if (p1->second!='='){
+		      stream<<"("<<(__polys[p1->first])<<" "<<p1->second<<" 0)";
+		    }
+		    else{
+		      stream<<"("<<(__polys[p1->first])<<" ==  0)";
+		    }
+                }
+                stream<<")";
+            }
+            //stream<<"\n  ],\n";
+            //stream<<"  [";
+            //for (auto p=this->__vars.begin();p!=this->__vars.end();++p)
+            //{
+            //    if (p!=this->__vars.begin())
+            //    {
+            //        stream<<",";
+            //   }
+            //    stream<<*p;
+            //}
+            //stream<<"]\n";
+            
+            //stream<<"]\n";
+            
+            return stream;
+        }
+
+      
 
         NRA_CNF NRA_CNF::random(
             std::pair<uint,uint> variable_num,
@@ -816,15 +876,17 @@ namespace smt{
             auto p=std::make_shared<formula>("-",f->elements());
             if (f->head()=="<=")
             {
-                return {{p,'<'},
+	      return {{p,'<'},
                         {p,'='}
                        };
+	      //return {{p,'@'}};
             }
             if (f->head()==">=")
             {
-                return {{p,'>'},
+	       return {{p,'>'},
                         {p,'='}
                        };
+	      //return {{p,'$'}}
                         
             }
             if (f->head()=="<" || f->head()=="=" || f->head()==">")

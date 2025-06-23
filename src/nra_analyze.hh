@@ -92,6 +92,7 @@ namespace smt{
                 friend std::ostream& operator<<  (std::ostream& stream, const NRA_CNF& C);
         
                 std::ostream& to_maple(std::ostream& stream,const std::string& s) const;
+	        std::ostream& to_mathematica(std::ostream& stream,const std::string& s) const;
                 std::ostream& to_smt2(std::ostream& stream,const std::string& s) const;
                 inline bool empty() const{
                     return __cnf.empty();
