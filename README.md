@@ -29,10 +29,10 @@ git submodule update --init --recursive
 -----------------------
 执行
 ```
-make smt2_to_maple 
+make smt2_to_mma 
 ```
 
 **测试**
 ```
-./smt2_to_maple -f test/test.smt2 -o test/test.mpl
+./smt2_to_mma -f test/test.smt2 -o test/test.mpl
 ```
